@@ -68,6 +68,7 @@ Geral:
     como esperado, voce pode usar Walkers.
     - Walkers sao funções que servem pra caminhar pelas arrays (e possíveis arrays dentro de arrays) e 
     executar comandos em cada passo. São muito uteis para essa criação de menus.
+    - The register_nav_menu() function will automatically call the add_theme_support( ‘menus’ ) function
 
 14. Aside: Menu Walker
     - Aqui ele vai ensinar a programar e usar walkers, mas nao tem necessidade de 
@@ -140,4 +141,18 @@ Geral:
     ser content-december e usar como 2 parametros get_template_parts('content', 'december') e deixar que os outros
     templates usassem apenas content.php, e ja usar isso como template generico.
 
-20. 
+20. Template tags
+    - Template tags ajudam a separar a logica envolvida em pegar os dados dinamicamente e o html da pagina
+    - As template tags funcionam em conjunto com o loop (the loop) para pegar tudo que eh tipo de dados sobre
+    o autor, o post, categorias, thumbnails, enfim. Elas sao o q transformam o template html de um post em um
+    template funcional e dinamico q se aplica a todos os posts do loop. 
+    - O wordpress cuida de praticamente tudo sozinho com relação a banco de dados.
+    - Cuidado ao usar the_date(). Tem alguns problemas com essa função, eh melhor ecoar get_the_date().
+    - Algumas funções são get e algumas não tem get. As template tags que começam com get não ecoam o valor,
+    apenas o retornam, enquanto as funções sem get ecoam o valor para fora da função. 
+    - por exemplo the_author ecoa o nome do autor para o html enquanto get_the_author retorna o nome do autor 
+    para uma variavel. 
+    - Thumbnails de posts vem em varios tamanhos, o default eh 'full'. Por default tem 4 tamanhos que o 
+    wordpress define pra você. 
+
+21. 

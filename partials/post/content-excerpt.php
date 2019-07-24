@@ -1,23 +1,28 @@
 
 <div class="entry clearfix">
-    <div class="entry-image clearfix">
-        <iframe width="100%" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/115823769&amp;auto_play=false&amp;hide_related=true&amp;visual=true"></iframe>
-    </div>
+    <?php
+    if( has_post_thumbnail() ){
+    ?>
+        <div class="entry-image">
+            <a href=<?php the_permalink(); ?>>
+                <?php the_post_thumbnail( 'large', [ 'class' => 'image_fade' ] ) ?>
+            </a>    
+        </div>
+    <?php 
+    }
+    ?>
+
     <div class="entry-title">
-        <h2><a href="single.html">This is an Embedded Audio Post</a></h2>
+        <h2><a href=<?php the_permalink( ); ?>> <?php the_title( ); ?></a></h2>
     </div>
     <ul class="entry-meta clearfix">
-        <li><i class="icon-calendar3"></i> 28th April 2014</li>
-        <li><a href="#"><i class="icon-user"></i> admin</a></li>
-        <li><i class="icon-folder-open"></i> <a href="#">Audio</a>, <a href="#">General</a></li>
-        <li><a href="single.html#comments"><i class="icon-comments"></i> 16 Comments</a></li>
+        <li><i class="icon-calendar3"></i> <?php echo get_the_date(); ?></li>
+        <li><a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>"><i class="icon-user"></i> <?php the_author(); ?></a></li>
+        <li><i class="icon-folder-open"></i> <?php the_category( ' ' ); ?></li>
+        <li><a href="single.html#comments"><i class="icon-comments"></i> <?php comments_number( '0' )?></a></li>
     </ul>
     <div class="entry-content">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, voluptatem, dolorem animi nisi
-        autem blanditiis enim culpa reiciendis et explicabo tenetur voluptate rerum molestiae eaque possimus
-        exercitationem eligendi fuga. Maiores, sunt eveniet doloremque porro hic exercitationem distinctio
-        sequi adipisci. Nulla, fuga perferendis voluptatum beatae voluptate architecto laboriosam provident
-        deserunt. Saepe!</p>
-        <a href="single.html" class="more-link">Read More</a>
+        <?php the_excerpt(  ); ?>
+        <a href=<?php the_permalink(); ?> class="more-link">Read More</a>
     </div>
 </div>
