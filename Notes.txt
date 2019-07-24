@@ -1,0 +1,143 @@
+Project: WordPress Development - Themes, Plugins & Gutenberg
+URL: https://www.udemy.com/wordpress-development-create-wordpress-themes-and-plugins/
+
+=========================>
+Geral:
+    Esse curso nao usa e abusa de OOP. Ele eh mais funcional, o
+    que pode ser meio broxante, mas eh curioso de ver como 
+    ele vai fazer tudo funcionar
+
+
+8. File Headers
+    - O requerimento minimo absoluto pra que o WP reconheca 
+    o tema eh ter 2 arquivos, um index.php e um style.css
+    com file header.
+    - O file header eh um bloco de comentario no comeco do
+    arquivo que contem informacoes diversas sobre o tema
+    (ou plugin) 
+    - A informacao no header eh chamada meta-information.
+    - O formato do header eh nome: valor
+    - O Text Domain eh um ID unico para traducao
+
+9. Functions File & Action Hooks
+    - O arquivo functions.php pode ser pensado como a parte
+    logica do seu tema. O arquivo eh totalmente opcional.
+    Ele eh lido depois do tema ser carregado. 
+    - Action hooks sao eventos em aberto que sao chamados em
+    certos momentos e servem pra vc colocar seu script no flow
+    do site.
+    - Filters sao um tipo de hook que sempre passam e retornam certo valor.
+    Esses servem pra voce alterar os valores padroes do WP
+    - Action hook API: add_action ('evento_padrao_wp', 'funcao_custom_callback')
+
+10. Loading Styles and Scripts with enqueues
+    - Registrar uma stylesheet serve pra contar ao wordpress sobre a stylesheet 
+    e deixar ela pronta para uso em algum momento oportuno.
+    - Enqueue uma stylesheet serve pra vc dizer ao wordpress para carregar aquela
+    stylesheet na pagina imediatamente.
+    - wp_head() e wp_footer() sao hooks que vc chama em algum ponto da pagina para 
+    dizer ao wordpress aonde eh q esta o head e o footer. eles sao usados por plugins
+    e funcoes para carregar meta tags, scripts e styles. wp_enqueue_scripts por exemplo,
+    depende desses hooks pra saber aonde executar os scripts.
+    - Wordpress da enqueue por default em varias ferramentas por padrao, incluindo
+    jquery, ajax, e muitas outras. quando usar alguma ferramente, melhor checkar se
+    o wordpress ja nao tem ela registrada e se sim, melhor usar o q o wordpress tem a oferecer.
+
+11. Cache
+    - O problema endereçado nessa aula é o reload dos mesmos arquivos toda vez que o site eh atualizado
+    QUando em desesnvolvimento eu quero que os arquivos novos q eu mexi sejam lidos pelo servidor, 
+    e nao as versoes antigas.
+    - Esse capitulo endereça esse problema criando uma constante para dizer se esta em desenvolvimento
+    ou nao. Se estiver, ele da append no tempo (time()) ao fim do nome do arquivo pra que o site veja
+    q eh um arquivo diferente e o carregue.
+
+12. Adding Dummy Content
+    - Aqui a gente baixa um plugin q gera conteudo dummy e usa ele pra gerar um monte de posts e pessoas
+
+13. Menu Support
+    - Usar menus no wordpress é bem semelhante a registrar styles e scripts. Você não usa o 
+    menu em HTML, vc usa o default do wordpress.
+    - Primeiro vc registra o menu usando register_nav_menu, dando pra ele um ID e uma descrição
+    - Depois no lugar do menu HTML vc da uma checkada se o menu com o ID q vc criou existe
+    usando has_nav_menu () e se existir, chama o menu usando wp_nav_menu.
+    - wp_nav_menu recebe como parametro uma array nomeada que pode conter vaarios parametros,
+    com coisas tipo IDs classes, se o container vai ser div ou nav, o location do tema (o ID do menu), 
+    depth, etc.
+    - Esses parametros sao importantes pra conseguir montar um menu q seja bem semelhante ao do HTML.
+    Se o nivel de cusotmização dessa função não for o suficiente pra conseguir que o CSS original funcione
+    como esperado, voce pode usar Walkers.
+    - Walkers sao funções que servem pra caminhar pelas arrays (e possíveis arrays dentro de arrays) e 
+    executar comandos em cada passo. São muito uteis para essa criação de menus.
+
+14. Aside: Menu Walker
+    - Aqui ele vai ensinar a programar e usar walkers, mas nao tem necessidade de 
+    usar walkers nesse projeto então eu vou só pular essa parte ateh ter terminado essa seção
+
+15. Creating Header & Footer Areas
+    - Para criar um header padrão, só separar (se no template já tiver um header criado) em um arquivo
+    diferente chamado header.php e usar a função get_header
+    - Para criar um footer padrão é só separar o footer em um arquivo e depois n apágina aonde vc quer
+    aquele footer chamar get_footer()
+    - Se vc quiser usar outro header que não o padrão que vc criou, vc pode soh dar append no nome com 
+    qualquer coisa (por exemplo "-v2") e depois na função get_header passar o parâmetro "v2".
+    O nome dos arquivos é forçado pleo wordpress pois ele procura o header e footer pelos nomes (header e footer)
+    quando vc chama get_header/get_footer.
+    - Body_class deve ser usado dentro da tag <body> (literalmente antes de fechar a tag).
+    Aqui vc usa os parametros pra mandar quaisquer classes custom q vc tenha no seu body e essa função
+    permite também que o próprio wordpress adcione algumas classes padrão pra que plugins possam extender seu código
+    usando essas classes.
+
+16. Creating Sidebars and Widget Areas
+    - Criar sidebar eh parecido com criar headers e footers
+    - Primeiro, separamos a parte condizente a sidebar em um arquivo sidebar.php (naming conventions eh
+    forçada aqui, assim como para headers e footers),
+    - Depois, chamamos esse arquivo com get_sidebar no template aonde queremos a sidebar. Essa função vai procurar
+    por sidebar.php automaticamente.
+    - Para registrar a sidebar (e aparecer no dashboard pra podermos enchê-la de widgets), usamos register_sidebar().
+    Essa função aceita 1 parâmetro, uma array. Nesse projeto ela foi colocada dentro do seu próprio arquivo
+    widgets.php e inclusa no functions.php
+    - Depois de registrada, para que a sidebar apareça na tela precisamos chamá-la no arquivo sidebar.php.
+    - A gente faz isso testando se a sidebar existe com is_active_sidebar() e, se true, chamamos dynamic_sidebar()
+    pra que ele use as settings do wordpress q colocamos no dashboard.
+    - Para que a sidebar fique do jeito que queremos, podemos ou reciar os widgets do nosso jeito e ter total 
+    controle sobre eles. Ou podemos ir olhando no source code as classes usadas na sidebar e usar um arquivo .css
+    para fazer a formatação. Essa segunda opção é mais fácil.
+    - É importante manter o CSS e HTML das sidebars em um minimo para que fique mais fácil de dar manutenção
+    com wordpress.
+
+17. Formatting the Search Form
+    - A função get_search_form eh responsavel por procurar o arquivo searchform.php e incluí-lo. Caso ela
+    não encontre nenhum arquivo com esse nome, ela mesma gera um search form padrão.
+    - Nós criamos um arquivo searchform.php para servir como padrão para o widget. 
+    - As coisas básicas pra se preencher no form são:
+        - Input name: deve ser 's'
+        - method: get
+        - action: home_url('/')
+        - current search value: <?php the_search_query(); ?>
+    
+18. The Loop
+    - O loop eh um mecanismo do wordpress para iterar sobre os posts e tomar ações de acordo com o requerido
+    pelo usuario em cada post. O numero de posts, os tipos, as categorias, eh tudo customizavel.
+    - O loop eh caracterizado por uma condicional perguntando se ha posts, depois um loop para retornar
+    enquanto houver posts e dentro desse loop um The_post para que o programa atualize o post atual da lista,
+    efetivando a iteração.
+    - Para adicionar features ao tema, da pra usar add_theme_support() aonde o parametro de texto e cada 
+    texto inputado atualizadopode significar uma feature diferente. por exemplo nessa aula adicionamos o
+     post thumbnail a todos os posts, permitindo que eles tenham uma imagem de preview.
+
+19. Template parts
+    - Template parts sao maneiras de vc manter o código principal limpo enquanto apenas importando as parametros
+    reutilizaveis que são importantes para aquela página.
+    - É como usar get_header, mas funciona para qualquer arquivo. Ele faz alguns checks e depois da require
+    no arquivo que voce pediu se ele existir.
+    - Uma pequena diferença é que get_template_part usa 2 argumentos. Ele basicamente tenta primeiro-segundo
+    concatenados. Se ele nao achar, ele tenta procurando soh pelo nome do primeiro parametro. Isso funciona
+    como um backup pra garantir que va haver algum arquivo pra ele incluir. 
+    - Outra vantagem eh que essa função sempre procura os arquivos de acordo com a pasta root do tema instalado e ativo.
+    - A pasta partials serve aqui como a pasta para guardar esses arquivos parciais.
+    - No exemplo aqui eu deixei tudo no primeiro parametro pra ficar igual ao video, mas se por exemplo
+    eu fosse utilizar algum template pra algum parametro especifico, tipo um mes, eu poderia deixar o arquivo
+    ser content-december e usar como 2 parametros get_template_parts('content', 'december') e deixar que os outros
+    templates usassem apenas content.php, e ja usar isso como template generico.
+
+20. 
