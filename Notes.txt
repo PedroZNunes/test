@@ -224,4 +224,12 @@ Geral:
     da query principal e pega o titulo do arquivo. Wordpress considera esse template um template de arquivo.
     - Um template de categoria nada mais é do que um template de arquivo só que focado em apenas uma
     categoria.
-    - 
+
+29. Date Template
+    - Date templates não são muito utilizados porque o wordpress não dispoe de muita flexibilidade
+    com relação às datas.
+    - Se não há posts para uma certa data, você nem carrega esse template, mas carrega direto o 404.
+    - Esse template parece um monte de problemas, o código exemplo no template hierarchy é bem complexo
+    e tudo tem que ser convertido em datas e testado na mão. 
+
+30. 
