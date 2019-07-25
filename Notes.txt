@@ -155,4 +155,73 @@ Geral:
     - Thumbnails de posts vem em varios tamanhos, o default eh 'full'. Por default tem 4 tamanhos que o 
     wordpress define pra você. 
 
-21. 
+21. Pagination
+    - Wordpress usa 2 funcoes pra paginação: next_posts_link e previous_posts_link. 
+    Nelas vc pode por uma string com o q quer q apareça
+    no botão. Bem simples. Difícil eh customizar pra ficar do jeito q vc quer.
+
+
+========== Seção 2 ===========
+23. Template Hierarchy & Single Post Template
+    - A hierarquia de templates é o que o wordpress usa pra definir qual template será usado para dar 
+    display na página. O default absoluto é o index.php, mas há uma página de referência salva com 
+    um diagrama completo com os nomes dos arquivos que o wordpress procura na hora de dar Load
+    nos templates.
+    - O theme development codex do wordpress tem diretivas e sugestões sobre o que cada template deve ter.
+    - O wordpress te permite fazer paginação automaticamente a partir da função wp_link_pages(). 
+    Basta inserir um page break no post que o wordpress separa ele em páginas.
+    - Usar next_post_link e previous_post_link para mostrar links para os posts criados anterior e 
+    posteriormente.
+    - A forma plural das funções acima deve ser usada para páginas com multiplos posts, enquanto a 
+    versão singular é para posts singulares.
+
+24. Comments
+    - comments_template() busca por comments.php. igual get_header e get_footer.
+    - no comments.php a gente começa com u check pra ver se o post requer password e retorna verdadeiro
+    se o post requerir password E se o usuario nao estiver logado. no caso ele da um return q eh pra n
+    mostrar o resto dos comments. 
+    - Segundo o cara do curso a gente faz isso soh nos comments pq o comments.php eh usado em qualquer
+    lugar do site e no post isso nao é necessário pois o wordpress já cuida dessa verificação automaticamente.
+    - Para fazer o formulario de comentarios, a gente usa a fun;'ao comment_form(). Ela é fundamental pois
+    pode ser extendida por plugins e possui uma infinidade de argumentos que podem ser passados.
+    - A funcao comment_form checka se o user ta logado e pode escrever comments, tambem checka se o post
+    esta aberto a receber comments e se encarrega de mandar a informacao correta do post no comentario. 
+    - wordpress salva todos os comments dentro de uma variavel global chamada comments, a qual esta disponivel
+    para acesso atraves de loops.
+
+25. Author Template Tags
+    - Usar a versão get da função se vc quiser formatar o valor antes de ecoa-lo
+    - NL2BR eh uma função de PHP que formata novas linhas para a tag <BR>
+
+26. WP_Query & Related posts
+    - A WP_Query eh a classe mais utilizada por developers em wordpress.
+    - Ela ajuda a fazer a ponte entre o request da pagina/post e o servidor.
+    - O loop principal ja utiliza essa classe para checkar se ha posts e pra fazer o loop entre eles.
+    - Criar uma instancia diferente da WP_Query pode servir como um segundo loop para conseguir uma segunda
+    lista de posts por qualquer q seja o motivo (related posts, recent posts, FAQ, etc.)
+    - Ela é uma class bem documentada e cheia de opções. 
+    - Nesse projeto começamos a utilizar wp_query na single.php aonde criamos um segundo feed de posts para
+    preencher a parte de related posts. Damos a query o numero maximo de posts, uma categoria para ela procurar
+    e limitamos os posts retornados por ID (no caso para não retornar o mesmo post que a pessoa está lendo)
+    - Depois de instanciada ela funciona como o loop principal, mas você chama as funções direto da intancia nova
+    - Importante: depois de usar o loop, deve-se usar a função wp_reset_postdata() para resetar o The_post
+    para o loop principal.
+
+27. Page.php
+    - Wordpress procura por page.php para templates de paginas.
+    - Geralmente as páginas são versões mais simples dos posts, mas depende um pouco do developer.
+    - Não é necessário checkar se há posts antes do loop pois se não houver o wordpress redireciona a página
+    para o 404. 
+    - Quando reutilizar o mesmo main loop, é necessário resetá-lo usando a função rewind_posts
+    antes de utilizá-lo novamente.
+    - Inicialmente tinha criar um outro The loop soh pra conseguir o titulo da pagina, mas existe uma
+    função chamada single_post_title que faz exatamente isso sem a necessidade de outro loop.
+    - Quando usar alguma função proveniente de um plugin, é uma boa ideia checkar se a função existe antes
+    usando function_exists(). Assim se você desativar o plugin vc pode implementar uma lógica de backup.
+
+28. 404 and Category
+    - the_archive_title() eh um tipo especial de template tag que não precisa estar no loop. Ele olha dentro
+    da query principal e pega o titulo do arquivo. Wordpress considera esse template um template de arquivo.
+    - Um template de categoria nada mais é do que um template de arquivo só que focado em apenas uma
+    categoria.
+    - 
