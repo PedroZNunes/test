@@ -232,4 +232,24 @@ Geral:
     - Esse template parece um monte de problemas, o código exemplo no template hierarchy é bem complexo
     e tudo tem que ser convertido em datas e testado na mão. 
 
-30. 
+30. Attachment templates
+    - Para attachments, a ordem de prioridade de páginas a serem carregadas é index, singular, single,
+    single-attachment-{slug}, attachment e {mime-type}.php
+    - Uma boa ideia eh cercar o print_r com <pre> pra melhor visualização quando quiser saber
+    o conteudo de alguma variável.
+    - Você pode criar um attachment.php e deixar que todos os attachments caiam no mesmo template
+    ou você pode usar o mime type (image, video, audio, application, etc.) como nome do arquivo
+    e preparar um template especifico para aquele tipo de arquivo.
+    - se você deixar a cargo do wordpress ele usa a single.php e mostra os attachments por conta, mas
+    se vc criar um attachment.php, entao o wordpress deixa de mostrar o attachment sozinho e voce passados
+    a ter controle cobre como aquele attachment eh visualizado.
+
+31. Search and Custom templates
+    - A função the_search_query() retorna os termos que o user pesquisou
+    - O search.php eh utilizado pra mostrar resultados de busca. 
+    - Custom templates te permitem ter opções diferentes de templates para páginas.
+    - Custom templates podem ter o nome que for, contanto que você dicione um header "template name: "
+    para que ele apareça na hora de editar a página no wordpress. em page attributes na sidebar eh q aparecem
+    as opções de templates.
+    - Custom templates podem ser usados para posts também, basta incluir no header "Template Post Type:"
+    e o tipo de post.
