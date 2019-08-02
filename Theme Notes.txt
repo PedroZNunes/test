@@ -253,3 +253,146 @@ Geral:
     as opções de templates.
     - Custom templates podem ser usados para posts também, basta incluir no header "Template Post Type:"
     e o tipo de post.
+
+32. Header, Title and Ad Section
+    - No arquivo setup.php a gente usa o add_theme_support pra permitir que o user upe uma logo custom e 
+    pra que vc possa puxar o titulo do blog dinamicamente atraves de the_custom_logo e has_custom_logo
+    - informacoes sobre o blog podem ser puxadas atraves da funcao bloginfo(). ha varias coisas q podem ser
+    requested usando essa funcao.
+    - Integrar plugins ao seu tema pode aumentar o valor do tema e sua flexibilidade
+
+33. Theme Customizer API
+    - 'customize register' eh o nome do hook usado para começar a editar o Customizer
+    - 'customize register' recebe um objeto com metodos e propriedades para customizar o theme customizer
+    como parâmetro da função. Esse parâmetro é o wp_customize, uma instance da classe WP_Customize_Manager
+    - O customizer tem 3 partes:
+        - Setting: A opção usada para salvar o valor diretamente no banco de dados
+            - $wp_customize->add_setting($id, $args)
+        - Section: Uma maneira de agrupar os campos
+            - $wp_customize->add_section($id, $args)
+        - Controller: Um input field colocado dentro de uma seção que te permite mudar o valor
+        da setting no banco de dados diretamente. Esse controller pode ser uma radiobox, uma checkbox,
+        um text field, enfim.
+            - Tem 2 maneiras de utilizar o controller, uma delas seria colocar as settings manualmente
+            e criar os campos manualmente. Assim teria mais controle sobre tudo, o que me lembra 
+            como eu fiz pra criar campos de opções no plugin.
+            - O outro jeito eh usar a classe WP_Customize_Control (ou alguma das suas subclasses) pra que 
+            ele crie os campos pra voce e te ajude. Esse segundo metodo eh mais simples.    
+            - $wp_customize->add_control( WP_Customize_Control $obj )
+    - Depois de registrar a setting, a gente usa get_theme_mod( 'pu_setting_name_handle' ) como nome 
+    da setting pra pegar a opção do banco de dados. Como no caso são caixas de texto, eu pego o valor
+    do banco de dados e uso para fazer os links com as midias sociais no header e no footer, bem como
+    para linkar numero de telefone e e-mail.
+    - Do jeito q foi feito, se a opção não for setada no customizer, o icone com a midia social não aparece.
+
+34. Dropdown & Checkboxes using API
+    - Dá pra criar checkboxes mudando o campo type para checkbox
+    - A chave choices eh usada para setar os valores da heckbox, enquanto a chave value vai ser um texto
+    legível
+    - Dá pra criar um dropdown para que o user escolha uma página usando dropdown-pages. A chave default
+    pode ser setada para 0 se vc não quiser que nenhuma página seja escolhida como default.
+    - O dropwdown-pages retorna o ID do post ou página. Para utiliza-lo como link, eh preciso usar 
+    o template tag the_permalink() e passar o id do post, no caso o valor da setting.
+    
+35. Customizer Transports and Overriding existing settings
+    - Hierarquia do customizer
+        - Paineis
+        - Seções
+        - Controladores
+    - No theme-customizer eu criei uma função chamada pu_edit_site_identity pra editar uma setting padrão.
+        - Para editar um controller, eh get_control( $id )
+        - Panel, get_panel( $id )
+        - Setting, get_setting( $id ).
+    - Depois voce seleciona a variavel ocmo se fosse uma propriedade publica e seta o valor.
+    - Para pegar o Id, basta dar dump no objeto wp_customize e caçar o ID pelo titulo.
+    - Nessa aula fizemos uma modificação na interação do customizer.
+        - nós mudamos o tipo de 'transport' de 'refresh' para 'postMessage'. Isso faz com que, ao inves de
+        a pagina dar refresh toda vez que voce alterar o controle no painel do customizer, ele deixa dependente
+        de um JS atualizar o preview.
+        - Isso faz com que a gente tenha que criar uma função em php pra dar enqueue num arquivo javaScript
+        que vai responder a um hook. O hook utilizado eh o customize_preview_init, que eh chamado quando
+        o customizer da load, e serve para carregar arquivos CSS e JS.
+        - Ao dar enqueue passamos 2 dependencias, uma eh jquery e a outra chama customize-preview, que serve
+        para passar algumas variáveis e métodos que facilitam lidar com o customizer. 
+        - no arquivo JS usamos js para checkar o valor da setting e atualizar a pagina de acordo, no caso
+        apenas usando .show e .hide para fazer os botoes aparecerem e sumirem.
+        - Por fim, essa mudança serve soh pra q não fique havendo refresh da página e não é algo intuitivo de
+        mexer, apesar de o exemplo deixar uma base bem boa para quando eu quiser replicar isso em um tema de verdade.
+    
+36. Color & Upload COntrollers for the Customizer
+    - no enqueue.php da pasta front, aonde tem todos os enqueues de styles e scripts que afetam a pagina, 
+    eu dei enqueue num inline style que da pra programar como string direto no parametro da funcao
+    - Isso foi feito para que eu pudesse fazer com que as mudanças nas settings afetassem a página de forma simples.
+    - alternativamente a inline css eu posso criar um arquivo php pra carregar o css dinamico e trocar os headers.
+    - o controle Upload File retorna o url completo do arquivo upado
+
+37. Theme Support & Creating Starter Content
+    - Com add theme support a gente pode adicionar features ao nosso site, como suporte html5, logos custom, 
+    rss automatico e starter-content
+    - o theme support starter-content serve o propósito de criar posts, menus, widgets, entre outros, como dummy
+    content ao momento que o user aplica o tema. 
+    - Ele é muito útil pois gera conteúdo, o que torna o tema bem mais óbvio e interessante.
+    - Se quiser simular um site novo, mude a key fresh_site para 1 e vc vai ver instalados o starter-content.
+
+38. Display Popular Posts and Conditional Tags
+    - Integração do plugin wordpress popular posts.
+    - Agora aquela barrinha de breaking news mostra os posts mais populares all time.
+    - Tem opção pra mostrar ou não a barra no customizer.
+    - Conditional tags são uma boa maneira de descobrir que pagina esta sendo vista.
+
+39. Final Touches
+    - language_attributes no lugar de fazer hardcore da language no header.php
+    - funcao charset pra definir os caracteres dinamicamente.
+    - adicionamos um id para o div de cada post usando o the_ID() pra gerar um id unico pra cada post.
+    - fizemos uso da função post_class pra que o wordpress adicione as classes comuns para posts.
+    Isso melhora conexão com plugins e facilita customização. Adicionamos as classes custom como parâmetro.
+    
+ 41. Template Tags Overview
+    - A versão get das template tags retorna o valor, enquanto a versão sem o get imprime o valor.
+    - Criada página experimental pra brincar com tags.
+
+42. General Tags
+    - São tags que não se encaixam em nenhuma categoria.
+    - Exemplos são:
+        - Includes
+            - São funções que se encarregam de carregar um template dentro de outro template
+            - Exemplos: get_header() get_footer(), get_sidebar(), get_template_part(), get_search_form(), comments_template()...
+        - Login
+            - Exemplos: 
+                - wp_loginout():                    providencia links para página de login ou logout, dependendo se o user está logado.
+                - wp_logout_url(), wp_login_url():  providencia urls para as páginas de login e logout.
+                - wp_login_form():                  imprime um simples form de login
+                - wp_lostpassword_url():            retorna o link para a pagina de recuperação de password
+                - wp_register():                    retorna o link para a página de registro de usuário.
+                - is_user_logged_in():              retorna true/false dependendo se o usuario esta logado
+        - Bloginfo
+            - Retorna info sobre o site. Retorna apenas 1 valor. Recebe 1 parâmetro.
+            - Essa função é muito antiga. Muitas outras funções já saíram pra facilitar pegar alguns valores.
+            - Sempre que pensar em pegar valor com bloginfo, olhar se não tem nenhuma função indicada no texto.
+        - Archive
+            - O arquivo é complexo.
+            - Os posts podem ser categorizados por terms, category, tag, date, taxonomies, etc.
+            - Tem muita informação que vai num post. Então durante muito tempo foi muito estranho pois vc tem um monte de função chamando outras funções e todas acabam chamando meio q a mesma função, soh q elas tem assinaturas diferentes e eh uma zona. Então no 4.71 sei lá, eles fizeram q função the_archive_title. 
+            - Função de Título:
+                - the_archive_title():              Essa função faz os checks pra ver o tipo de categoria e automatiza o processo, além de não                                            precisar se preocupar com single_cat_title, single_post_title e single_term_title etc...
+        - Calendar
+            - Não são usadas muito.
+            - Exemplos:
+                - calendar_week_mod():              Retorna o numero de dias desde o começo da semana
+                - get_calendar():                   Retorna um calendário em formato de tabela.
+                - delete_get_calendar_cache():      Deleta o cache do calendario deixado por get_calendar()
+        - Other Tags
+            - wp_meta():                            Uma função pra representar uma action do_action('wp_meta'), que dispara antes de mostrar o conteúdo ecoado na sidebar.
+            - get_current_blog_id():                retorna o id do blog... 
+            - wp_title():                           retorna o titulo da pagina/post.
+            - allowed_tags():                       retorna uma lista de tags de html que sao permitidas no post
+            - wp_enqueue_script():                  registra um script js e o enfileira para execução.
+        - Nav Tags
+            - wp_nav_menu():                        mostra um menu de navegação
+        - Link Tags
+            - Há 2 maneiras de acessar a página de search, uma delas eh pelo URL /search/term, a outra eh adicionando uma query na URL
+            /udemy/?s=test
+            - As link tags providenciam links e urls. 
+        
+Fim da parte de temas. Vou separar as notes.
+        

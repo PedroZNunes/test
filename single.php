@@ -20,7 +20,7 @@
                         $author_url = get_author_posts_url( $author_id );
 
                         ?>
-                        <div class="single-post nobottommargin">
+                        <div id="post-<?php the_ID(); ?>" <?php post_class( 'single-post nobottommargin' ); ?>>
 
                         <!-- Single Post 
                         ============================================= -->

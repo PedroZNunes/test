@@ -30,6 +30,12 @@ function pu_enqueue()
     wp_enqueue_style('pu_responsive');
     wp_enqueue_style('pu_custom');
 
+    //color change based off customizer color picker
+    $read_more_color = get_theme_mod( 'pu_read_more_color' );
+    wp_add_inline_style( 
+        'pu_custom',
+        'a.more-link{ color: ' . $read_more_color . '; border-color: ' . $read_more_color . '; }'
+    );
     /** Scripts
      * ============================ */
     //wp_register_script( 'pu_jquery',        $uri . '/assets/js/jquery.js',              [], $ver, true );

@@ -5,27 +5,32 @@
 <section id="content">
 
   <div class="content-wrap">
+    <?php
+    if ( !is_single() && is_home() &&
+      function_exists( 'wpp_get_mostpopular' ) && get_theme_mod( 'pu_show_popular_posts' ) ){
+      
+      wpp_get_mostpopular([
+        'limit'           =>  '3',
+        'wpp_start'       =>  '<div class="section header-stick bottommargin-lg clearfix" style="padding: 20px 0;">
+                                <div>
+                                  <div class="container clearfix">
+                                    <span class="badge badge-danger bnews-title">' . get_theme_mod( 'pu_popular_posts_text' ) . '</span>
 
-    <div class="section header-stick bottommargin-lg clearfix" style="padding: 20px 0;">
-      <div>
-        <div class="container clearfix">
-          <span class="badge badge-danger bnews-title">Breaking News:</span>
+                                    <div class="fslider bnews-slider nobottommargin" data-speed="800" data-pause="6000" data-arrows="false" data-pagi="false">
+                                      <div class="flexslider">
+                                        <div class="slider-wrap">',
 
-          <div class="fslider bnews-slider nobottommargin" data-speed="800" data-pause="6000" data-arrows="false" data-pagi="false">
-            <div class="flexslider">
-              <div class="slider-wrap">
-                <div class="slide"><a href="#"><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    </strong></a></div>
-                <div class="slide"><a href="#"><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    </strong></a></div>
-                <div class="slide"><a href="#"><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    </strong></a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        'wpp_end'         =>            '</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>',
+
+        'post_html'       =>  '<div class="slide"><a href="{url}"><strong>{text_title}</strong></a></div>'
+      ]);
+    }
+    ?>
 
     <div class="container clearfix">
 
