@@ -36,6 +36,7 @@ function pu_enqueue()
         'pu_custom',
         'a.more-link{ color: ' . $read_more_color . '; border-color: ' . $read_more_color . '; }'
     );
+
     /** Scripts
      * ============================ */
     //wp_register_script( 'pu_jquery',        $uri . '/assets/js/jquery.js',              [], $ver, true );

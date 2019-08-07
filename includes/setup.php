@@ -77,6 +77,7 @@ function pu_setup_theme(){
             'pu_header_show_cart'           =>  'yes',
             'pu_header_show_search'         =>  'yes',
             'pu_read_more_color'            =>  '#1ABC9C',
+            'pu_header_show_search'         =>  'yes'
         ],
             
         // Set up nav menus for each of the two areas registered in the theme.

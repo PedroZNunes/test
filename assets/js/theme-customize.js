@@ -21,4 +21,14 @@
             }
         });
     });
+
+    wp.customize( 'pu_excerpt_show_recipe_rating', function( value) {
+        value.bind( function( new_value ) {
+            if ( new_value ){
+                $("#recipe_rating").show();
+            } else{
+                $("#recipe_rating").hide();
+            }
+        });
+    });
 })(jQuery);

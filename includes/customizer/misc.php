@@ -8,8 +8,7 @@ function pu_misc_customizer_section( $wp_customize ){
         'priority'  => 30,
         'panel'     => 'udemy'
     ]);
-
-
+    
     pu_add_misc_controls( $wp_customize );
 
 }
@@ -55,6 +54,7 @@ function pu_add_misc_settings( $wp_customize ){
     $wp_customize->add_setting( 'pu_popular_posts_text', [
         'default'   => 'POPULAR POSTS'
     ]);
+
 }
 
 function pu_add_misc_controls( $wp_customize ){
@@ -162,5 +162,5 @@ function pu_add_misc_controls( $wp_customize ){
             'default'       =>  'Popular Posts'
         ]
     ));
-
+    
 }

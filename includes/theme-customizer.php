@@ -7,6 +7,7 @@ function pu_customize_register( $wp_customize ){
 
     pu_social_customizer_section( $wp_customize );
     pu_misc_customizer_section( $wp_customize );
+    pu_extension_customizer_section( $wp_customize );
 }
 
 function pu_add_panel( $wp_customize ){
