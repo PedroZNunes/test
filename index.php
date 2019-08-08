@@ -27,7 +27,8 @@
                                 </div>
                               </div>',
 
-        'post_html'       =>  '<div class="slide"><a href="{url}"><strong>{text_title}</strong></a></div>'
+        'post_html'       =>  '<div class="slide"><a href="{url}"><strong>{text_title}</strong></a></div>',
+        'post_type'       =>  'post,recipe'
       ]);
     }
     ?>
